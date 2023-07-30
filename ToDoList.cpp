@@ -11,7 +11,7 @@ using namespace std;
 class task
 {
 private:
-	string name, description;
+	string name, description,category;
 	int priority, id;
 public:
 	bool set_name(string Name) {
@@ -38,19 +38,20 @@ public:
 		description = Des;
 	}
 	void set_category(string Cat) {
-
+		category = Cat;
 	}
 	void set_time() {
 
 	}
 	void set_id(int Id) {
-		//id=
+		id = Id;
 	}
 	void print() {
-		
+		printf("%4d  %20s  %2d", id, name, priority);
+
 	}
 	void show_description() {
-
+		printf("\n%s\n", description);
 	}
 };
 
@@ -75,7 +76,7 @@ public:
 
 	}
 	void remove_all() {
-
+		li.clear();
 	}
 	void change_task() {
 
@@ -87,7 +88,7 @@ public:
 
 	}
 	void show() {
-		printf("%4s  %20s  %2s", "id", "name       ", "pr");
+		printf("%4s  %20s  %2s  %20s", "id", "name       ", "pr", "      category     ");
 		for (task t : li) {
 			
 		}
@@ -108,8 +109,5 @@ int main() {
 	printf(" -filter- -id- to change in task with id \n");
 	printf(" -filter- -id- to change in task with id \n");
 	printf(" -remall- to remove all current tasks \n");
-	time_t raw;
-	time(&raw);
-	printf("cur time %s", ctime(&raw));
 
 }
