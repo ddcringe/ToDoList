@@ -5,6 +5,7 @@
 #include<unordered_map>
 #include<unordered_set>
 #include<time.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -59,7 +60,7 @@ class list_of_tasks
 {
 private:
 	vector<task> li;
-	unordered_set<string> categories ={"chores","homework","none","work"};
+	vector<string> categories ={"chores","homework","none","work"};
 
 public:
 	void add_task() {
@@ -106,42 +107,60 @@ void show_commands() {
 	//printf(" -show- to show all curent tasks \n");
 	printf(" -change- to change in task with id \n");
 	printf(" -filter- to show tasks only with \n");
-	printf(" -addcat- to add a category\n");
-	printf(" -remcat- to remove a category");
+	printf(" -addcat- to add a category \n");
+	printf(" -remcat- to remove a category \n");
 	printf(" -remall- to remove all current tasks \n");
 }
 void ask_id(int &id) {
-	printf("please enter id of the task");
+	printf("--Please enter id of the task \n");
 	cin >> id; 
+}
+void ask_cat(string &cat) {
+	printf("--Please enter category \n");
 }
 bool check_id(int &id,int &sz) {
 	if (id > sz) {
-		printf("--Invalid id \n --Please make it from 1 to %d \n --Or -back- to cancel", sz);
+		printf("--Invalid id \n --Please make it from 1 to %d \n", sz);
+		return false;
 	}
+	return true;
 }
 int main() {
+	//system("cls"); to clear output
+	//chrono for time
+
 	list_of_tasks li;
 	while (1) {
 		li.show();
 		printf("Please enter a command\n");
 		printf(" -cm- to show commands\n");
-		string input;
+		string input,cat;
 		int id, by, sz = li.get_number_of_tasks();
 		cin >> input;
-		if (input == "add") {
+		if (input == "cm") {
+			show_commands();
+		}
+		else if (input == "add") {
 			li.add_task();
 		}
 		else if (input == "remove") {
-			ask_id(id);
+			do {
+				ask_id(id);
+			} while (!check_id(id, sz));
 			li.remove_task(id);
 		}
 		else if (input=="change") {
-			ask_id(id);
-			if (id > sz) {
-				
-			}
+			do {
+				ask_id(id);
+			} while (!check_id(id, sz));
 			li.change_task(id);
-		}else 
+		}
+		else if (input == "addcat") {
+			li.add_category();
+		}
+		else if (input == "remcat") {
+
+		}
 	}
 	
 
