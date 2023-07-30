@@ -47,8 +47,7 @@ public:
 		id = Id;
 	}
 	void print() {
-		printf("%4d  %20s  %2d", id, name, priority);
-
+		printf("%4d  %20s  %2d  %20s \n", id, name, priority,category);
 	}
 	void show_description() {
 		printf("\n%s\n", description);
@@ -60,25 +59,25 @@ class list_of_tasks
 {
 private:
 	vector<task> li;
-	unordered_set<string> categories;
+	unordered_set<string> categories ={"chores","homework","none","work"};
 
 public:
 	void add_task() {
 
 	}
-	void remove_task() {
+	void remove_task(int id) {
 
 	}
-	void filter_tasks() {
+	void filter_tasks(int by) {
 
 	}
-	void sort_tasks() {
+	void sort_tasks(int by) {
 
 	}
 	void remove_all() {
 		li.clear();
 	}
-	void change_task() {
+	void change_task(int id) {
 
 	}
 	void add_category() {
@@ -87,10 +86,13 @@ public:
 	void remove_category() {
 
 	}
+	void show_categories() {
+
+	}
 	void show() {
 		printf("%4s  %20s  %2s  %20s", "id", "name       ", "pr", "      category     ");
 		for (task t : li) {
-			
+			t.print();
 		}
 	}
 	int get_number_of_tasks() {
@@ -98,16 +100,50 @@ public:
 	}
 
 };
-
+void show_commands() {
+	printf(" -add- to add a task \n");
+	printf(" -remove- to remove a task with id\n");
+	//printf(" -show- to show all curent tasks \n");
+	printf(" -change- to change in task with id \n");
+	printf(" -filter- to show tasks only with \n");
+	printf(" -addcat- to add a category\n");
+	printf(" -remcat- to remove a category");
+	printf(" -remall- to remove all current tasks \n");
+}
+void ask_id(int &id) {
+	printf("please enter id of the task");
+	cin >> id; 
+}
+bool check_id(int &id,int &sz) {
+	if (id > sz) {
+		printf("--Invalid id \n --Please make it from 1 to %d \n --Or -back- to cancel", sz);
+	}
+}
 int main() {
 	list_of_tasks li;
-	printf("Please enter a command\n");
-	printf(" -add- to add a task \n");
-	printf(" -remove- -id- to remove a task with id\n");
-	printf(" -show- to show all curent tasks \n");
-	printf(" -change- -id- to change in task with id \n");
-	printf(" -filter- -id- to change in task with id \n");
-	printf(" -filter- -id- to change in task with id \n");
-	printf(" -remall- to remove all current tasks \n");
+	while (1) {
+		li.show();
+		printf("Please enter a command\n");
+		printf(" -cm- to show commands\n");
+		string input;
+		int id, by, sz = li.get_number_of_tasks();
+		cin >> input;
+		if (input == "add") {
+			li.add_task();
+		}
+		else if (input == "remove") {
+			ask_id(id);
+			li.remove_task(id);
+		}
+		else if (input=="change") {
+			ask_id(id);
+			if (id > sz) {
+				
+			}
+			li.change_task(id);
+		}else 
+	}
+	
+
 
 }
