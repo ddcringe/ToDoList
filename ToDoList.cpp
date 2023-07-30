@@ -14,6 +14,7 @@ class task
 private:
 	string name, description,category;
 	int priority, id;
+	bool show;
 public:
 	bool set_name(string Name) {
 		if (Name.size() > 20) {
@@ -84,14 +85,19 @@ public:
 	void add_category() {
 
 	}
-	void remove_category() {
+	void remove_category(string &cat) {
 
 	}
 	void show_categories() {
-
+		for (string cat : categories) {
+			printf("- %20s \n", cat);
+		}
+	}
+	vector<string> get_categories() {
+		return categories;
 	}
 	void show() {
-		printf("%4s  %20s  %2s  %20s", "id", "name       ", "pr", "      category     ");
+		printf("%4s  %20s  %2s  %20s \n", "id", "name       ", "pr", "      category     ");
 		for (task t : li) {
 			t.print();
 		}
@@ -117,6 +123,7 @@ void ask_id(int &id) {
 }
 void ask_cat(string &cat) {
 	printf("--Please enter category \n");
+	cin >> cat;
 }
 bool check_id(int &id,int &sz) {
 	if (id > sz) {
@@ -124,6 +131,9 @@ bool check_id(int &id,int &sz) {
 		return false;
 	}
 	return true;
+}
+bool check_cat(string& cat) {
+
 }
 int main() {
 	//system("cls"); to clear output
@@ -159,8 +169,15 @@ int main() {
 			li.add_category();
 		}
 		else if (input == "remcat") {
+			do {
+				ask_cat(cat);
+			} while (!check_cat(cat));
+			li.remove_category(cat);
 
 		}
+		printf(" --Type anything to continue");
+		cin >> input;
+		system("cls");
 	}
 	
 
