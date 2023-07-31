@@ -7,8 +7,42 @@
 #include<time.h>
 #include <stdlib.h>
 
+#define all(x) (x).begin(),(x).end()
+
 using namespace std;
 
+vector<string> categories = { "chores","homework","none","work" };
+
+void add_category(string &Cat) {
+	while (check_category(Cat)) {
+		printf("--Category is already used \n --Please enter new category \n");
+		cin >> Cat;
+	}
+	categories.push_back(Cat);
+
+}
+void remove_category(string& Cat) {
+	while (!check_category(Cat)) {
+		printf("--Category doesn't exist\n --Please enter existing category \n");
+		cin >> Cat;
+	}
+	categories.erase(find(all(categories), Cat));
+}
+void show_categories() {
+	for (string Cat : categories) {
+		printf("- %20s \n", Cat);
+	}
+}
+//void ask_cat(string& cat) {
+//	printf("--Please enter category \n");
+//	cin >> cat;
+//}
+bool check_category(string& Cat) {
+	if (find(all(categories), Cat) == categories.end()) {
+		return false;
+	}
+	else return true;
+}
 class task
 {
 private:
@@ -16,37 +50,44 @@ private:
 	int priority, id;
 	bool show;
 public:
-	bool set_name(string Name) {
+	void set_name(string &Name) {
+		while (!check_name(Name)) {
+			cin >> Name;
+		}
+		name = Name;
+	}
+	bool check_name(string& Name) {
 		if (Name.size() > 20) {
-			printf("--Invalid name\n --Please make it less than 20 symbols");
+			printf("--Invalid name\n --Please make it less than 20 symbols \n");
 			return false;
 		}
-		else {
-			name = Name;
-			return true;
-		}
+		else return true;
 	}
-	bool set_priority(int Pri) {
+	void set_priority(int &Pri) {
+		while (!check_priority(Pri)) {
+			cin >> Pri;
+		}
+		priority = Pri;
+	}
+	bool check_priority(int& Pri) {
 		if (Pri < 0 || Pri>99) {
-			printf("--Invalid priority\n --Please make it from 0 to 99");
+			printf("--Invalid priority\n --Please make it from 0 to 99 \n");
 			return false;
 		}
-		else {
-			priority = Pri;
-			return true;
-		}
+		else return true;
 	}
-	void set_description(string Des) {
+	void set_description(string &Des) {
 		description = Des;
 	}
-	void set_category(string Cat) {
+	void set_category(string &Cat) {
+		while (!check_category(Cat)) {
+			cin >> Cat;
+		}
 		category = Cat;
 	}
+
 	void set_time() {
 
-	}
-	void set_id(int Id) {
-		id = Id;
 	}
 	void print() {
 		printf("%4d  %20s  %2d  %20s \n", id, name, priority,category);
@@ -54,57 +95,79 @@ public:
 	void show_description() {
 		printf("\n%s\n", description);
 	}
+	task() {
+		string Name, Des, Cat;
+		int Pri, int Id;
+		bool Show;
+		printf("-Please enter the name, it must be less then 20 symbols \n");
+		cin >> Name;
+		this->set_name(Name);
+		printf("-Please enter the priotity, it must from 0 to 99 \n");
+		cin >> Pri;
+		this->set_priority(Pri);
+		printf("-Please enter the description \n");
+		cin >> Des;
+		this->set_description(Des);
+		printf("-Please enter the category \n");
+		
+		category = Cat;
+		priority = Pri;
+		id = Id;
+		show = Show;
+	}
 };
+
 
 
 class list_of_tasks
 {
 private:
 	vector<task> li;
-	vector<string> categories ={"chores","homework","none","work"};
-
 public:
 	void add_task() {
 
 	}
-	void remove_task(int id) {
+	void remove_task(int &id) {
 
 	}
-	void filter_tasks(int by) {
+	void ask_id(int& id) {
+		printf("--Please enter id of the task \n");
+		cin >> id;
+	}
+	task get_task(int &id) {
+		return li[id - 1];
+	}
+	void filter_tasks(int &by) {
 
 	}
-	void sort_tasks(int by) {
+	void sort_tasks(int &by) {
 
 	}
 	void remove_all() {
 		li.clear();
 	}
-	void change_task(int id) {
+	void change_task(int &id) {
 
 	}
-	void add_category() {
 
+	int get_number_of_tasks() {
+		return li.size();
 	}
-	void remove_category(string &cat) {
-
-	}
-	void show_categories() {
-		for (string cat : categories) {
-			printf("- %20s \n", cat);
+	bool check_id(int &id) {
+		if (id > li.size()) {
+			printf("--Invalid id \n --Please make it from 1 to %d \n",li.size());
+			return false;
 		}
+		return true;
 	}
-	vector<string> get_categories() {
-		return categories;
-	}
+
 	void show() {
 		printf("%4s  %20s  %2s  %20s \n", "id", "name       ", "pr", "      category     ");
 		for (task t : li) {
 			t.print();
 		}
 	}
-	int get_number_of_tasks() {
-		return li.size();
-	}
+
 
 };
 void show_commands() {
@@ -116,35 +179,20 @@ void show_commands() {
 	printf(" -addcat- to add a category \n");
 	printf(" -remcat- to remove a category \n");
 	printf(" -remall- to remove all current tasks \n");
+	printf(" -des- to show description of certain task");
 }
-void ask_id(int &id) {
-	printf("--Please enter id of the task \n");
-	cin >> id; 
-}
-void ask_cat(string &cat) {
-	printf("--Please enter category \n");
-	cin >> cat;
-}
-bool check_id(int &id,int &sz) {
-	if (id > sz) {
-		printf("--Invalid id \n --Please make it from 1 to %d \n", sz);
-		return false;
-	}
-	return true;
-}
-bool check_cat(string& cat) {
 
-}
+
+
 int main() {
 	//system("cls"); to clear output
 	//chrono for time
-
 	list_of_tasks li;
 	while (1) {
 		li.show();
 		printf("Please enter a command\n");
 		printf(" -cm- to show commands\n");
-		string input,cat;
+		string input, cat;
 		int id, by, sz = li.get_number_of_tasks();
 		cin >> input;
 		if (input == "cm") {
@@ -155,27 +203,37 @@ int main() {
 		}
 		else if (input == "remove") {
 			do {
-				ask_id(id);
-			} while (!check_id(id, sz));
+				li.ask_id(id);
+			} while (!li.check_id(id));
 			li.remove_task(id);
 		}
-		else if (input=="change") {
+		else if (input == "change") {
 			do {
-				ask_id(id);
-			} while (!check_id(id, sz));
+				li.ask_id(id);
+			} while (!li.check_id(id));
 			li.change_task(id);
 		}
+		else if (input == "des") {
+			do {
+				li.ask_id(id);
+			} while (!li.check_id(id));
+			li.get_task(id).show_description();
+		}
 		else if (input == "addcat") {
-			li.add_category();
+			cin >> cat;
+			add_category(cat);
 		}
 		else if (input == "remcat") {
-			do {
-				ask_cat(cat);
-			} while (!check_cat(cat));
-			li.remove_category(cat);
-
+			cin >> cat;
+			remove_category(cat);
 		}
-		printf(" --Type anything to continue");
+		else if (input == "remall") {
+			li.remove_all();
+		}
+		else {
+			printf("--Invalid command, please try again \n");
+		}
+		printf(" --Type anything to continue\n");
 		cin >> input;
 		system("cls");
 	}
