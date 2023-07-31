@@ -95,10 +95,9 @@ public:
 	void show_description() {
 		printf("\n%s\n", description);
 	}
-	task() {
+	task(int Id) {
 		string Name, Des, Cat;
-		int Pri, int Id;
-		bool Show;
+		int Pri;
 		printf("-Please enter the name, it must be less then 20 symbols \n");
 		cin >> Name;
 		this->set_name(Name);
@@ -109,11 +108,10 @@ public:
 		cin >> Des;
 		this->set_description(Des);
 		printf("-Please enter the category \n");
-		
-		category = Cat;
-		priority = Pri;
+		cin >> Cat;
+		this->set_category(Cat);
 		id = Id;
-		show = Show;
+		show = true;
 	}
 };
 
@@ -125,10 +123,11 @@ private:
 	vector<task> li;
 public:
 	void add_task() {
-
+		task temp(li.size() + 1);
+		li.push_back(temp);
 	}
 	void remove_task(int &id) {
-
+		li.erase(li.begin() + id - 1);
 	}
 	void ask_id(int& id) {
 		printf("--Please enter id of the task \n");
@@ -148,10 +147,6 @@ public:
 	}
 	void change_task(int &id) {
 
-	}
-
-	int get_number_of_tasks() {
-		return li.size();
 	}
 	bool check_id(int &id) {
 		if (id > li.size()) {
@@ -193,7 +188,7 @@ int main() {
 		printf("Please enter a command\n");
 		printf(" -cm- to show commands\n");
 		string input, cat;
-		int id, by, sz = li.get_number_of_tasks();
+		int id, by;
 		cin >> input;
 		if (input == "cm") {
 			show_commands();
@@ -229,7 +224,7 @@ int main() {
 		}
 		else if (input == "remall") {
 			li.remove_all();
-		}
+		} 
 		else {
 			printf("--Invalid command, please try again \n");
 		}
