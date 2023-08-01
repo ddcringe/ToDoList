@@ -13,6 +13,13 @@ using namespace std;
 
 vector<string> categories = { "chores","homework","none","work" };
 
+bool check_category(string& Cat) {
+	if (find(all(categories), Cat) == categories.end()) {
+		printf("--Invalid category \n");
+		return false;
+	}
+	else return true;
+}
 void add_category(string &Cat) {
 	while (check_category(Cat)) {
 		printf("--Category is already used \n --Please enter new category \n");
@@ -37,12 +44,7 @@ void show_categories() {
 //	printf("--Please enter category \n");
 //	cin >> cat;
 //}
-bool check_category(string& Cat) {
-	if (find(all(categories), Cat) == categories.end()) {
-		return false;
-	}
-	else return true;
-}
+
 class task
 {
 private:
@@ -90,7 +92,7 @@ public:
 
 	}
 	void print() {
-		printf("%4d  %20s  %2d  %20s \n", id, name, priority,category);
+		cout << id << ' ' << name << ' ' << priority << ' ' << category << endl;
 	}
 	void show_description() {
 		printf("\n%s\n", description);
